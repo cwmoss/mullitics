@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mullitics - zero-effort minimal analytics</title>
+  <style>
+  <?php include("styles.css")?>
+  body>header{
+    max-width: 1148px;
+    margin: 0 auto;
+    padding-top:30px;
+  }
+  </style>
+
+</head>
+
+<body>
+  <header><h1>mullitics</h1></header>
+  <?php include("components/nu-grid.html")?>
+  <?php include("components/nu-modal.html")?>
+  <?php include("components/nu-graph.html")?>
+  <?php include("components/nu-date-range.html")?>
+  <?php include("components/nu-panel.html")?>
+  <?php include("components/nu-summary.html")?>
+  <?php include("components/nu-table.html")?>
+  <?php include("components/nu-worldmap.html")?>
+  
+  <nu-grid id="cloak" class="hidden">
+    <nu-date-range wide ondatechange="render()"></nu-date-range>
+    <nu-panel wide class="sessions" heading="Sessions">
+      <nu-summary slot="header" visitors=0 views=0></nu-summary>
+      <div class="graph-wrapper">
+        <nu-graph tooltips='["$n views","$n visitors"]'></nu-graph>
+      </div>
+    </nu-panel>
+    <nu-panel class="paths" heading="Paths" expandable="true" onexpand="pathsModal.visible = true">
+      <nu-table data-filter="URIs" limit=20></nu-table>
+      <nu-modal id="pathsModal" heading="Paths" mode="ok">
+        <nu-table data-filter="URIs"></nu-table>
+      </nu-modal>
+    </nu-panel>
+    <nu-panel class="refs" heading="Referrers" expandable="true" onexpand="refsModal.visible = true">
+      <nu-table limit=20 data-filter="Refs"></nu-table>
+      <nu-modal id="refsModal" heading="Referrers" mode="ok">
+        <nu-table data-filter="Refs"></nu-table>
+      </nu-modal>
+    </nu-panel>
+    <nu-panel wide class="countries" heading="Countries" expandable="true" onexpand="countriesModal.visible = true">
+      <div class="countries-grid">
+        <nu-worldmap data-filter="Countries"></nu-worldmap>
+        <nu-table limit=15 data-filter="Countries"></nu-table>
+      </div>
+      <nu-modal id="countriesModal" heading="Countries" mode="ok">
+        <nu-table data-filter="Countries"></nu-table>
+      </nu-modal>
+    </nu-panel>
+    <nu-panel class="devices" heading="Devices">
+      <nu-table limit=5 data-filter="Devices"></nu-table>
+    </nu-panel>
+  </nu-grid>
+ 
+  <script type="text/javascript">
+    const fullData = {} // {{ .History }};
+    const dailyData = {} //{{ .Daily }};
+    <?php include("app.js")?>
+  </script>
+  <noscript>
+    <pre>
+#
+# Please, enable JavaScript for better viewing experience.
+#
+    </pre>
+  </noscript>
+</body>
+
+</html>
