@@ -49,3 +49,34 @@ http://proger.i-forge.net/%D0%9A%D0%BE%D0%BC%D0%BF%D1%8C%D1%8E%D1%82%D0%B5%D1%80
 function pixel() {
     return base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQYV2NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=');
 }
+
+function url_origin($s, $use_forwarded_host = false) {
+    $ssl      = (!empty($s['HTTPS']) && $s['HTTPS'] == 'on');
+    $sp       = strtolower($s['SERVER_PROTOCOL']);
+    $protocol = substr($sp, 0, strpos($sp, '/')) . (($ssl) ? 's' : '');
+    $port     = $s['SERVER_PORT'];
+    $port     = ((!$ssl && $port == '80') || ($ssl && $port == '443')) ? '' : ':' . $port;
+    $host     = ($use_forwarded_host && isset($s['HTTP_X_FORWARDED_HOST'])) ? $s['HTTP_X_FORWARDED_HOST'] : (isset($s['HTTP_HOST']) ? $s['HTTP_HOST'] : null);
+    $host     = isset($host) ? $host : $s['SERVER_NAME'] . $port;
+    return $protocol . '://' . $host;
+}
+
+function full_url($s, $use_forwarded_host = false) {
+    return url_origin($s, $use_forwarded_host) . $s['REQUEST_URI'];
+}
+
+// https://stackoverflow.com/questions/6768793/get-the-full-url-in-php
+function get_self_url($req) {
+    return url_origin($req->server) .
+        parse_url($req->server['REQUEST_URI'], PHP_URL_PATH);
+}
+
+function text_for($muster, $vars = array()) {
+    $repl = array();
+    foreach ($vars as $k => $v) {
+        $repl['{' . strtolower($k) . '}'] = $v;
+    }
+    $txt = $muster;
+    $txt = str_replace(array_keys($repl), $repl, $txt);
+    return $txt;
+}

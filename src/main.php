@@ -21,8 +21,9 @@ if ($req->method('GET')) {
     if (isset($req->get['__desk'])) {
         include($DESK . 'index.html');
     } elseif (isset($req->get['__script'])) {
+        $url = get_self_url($req);
         $js = file_get_contents($DESK . 'ping.js');
-        $resp = new response('js', $js);
+        $resp = new response('js', text_for($js, ['self_url' => $url]));
         $resp->send();
     } else {
         dbg("+++ hit", $req);

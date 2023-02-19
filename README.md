@@ -50,4 +50,4 @@ put this in header, with the url of your installation as data-fun attribute
 
 or fetch from installation
 
-    <script defer data-fun="/ping.php" src="/ping.php?__script"></script>
+    <script defer src="/ping.php?__script"></script>
