@@ -4,13 +4,20 @@ this is highly experimental
 
 needs php 7.4. - 8.2 with extensions: intl, pdo-sqlite, json
 
+## todo
+
+    - queries!
+    - multisite via _sites.db
+    - daily autorotation of salt
+    - connect geoip
+
 ## dead simple installation
 
     # get the source
     git clone https://github.com/cwmoss/mullitics.git
     # move it to your server, outside the document root
     # i use rsync but you can use scp or ftp...
-    rsync -avz --exclude=var --exclude=.git . USERNAME@example.met:/path/outside/docroot/
+    rsync -avz --exclude=var --exclude=.git . USERNAME@example.met:/path/outside/docroot
     # login to your host
     cd /path/outside/docroot/mullitics
     php setup/setup.php
