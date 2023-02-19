@@ -5,7 +5,8 @@ class response {
     public string $data;
 
     public static array $mime = [
-        'png' => 'image/png'
+        'png' => 'image/png',
+        'js' => 'text/javascript'
     ];
 
     public function __construct(string $type, string $data) {

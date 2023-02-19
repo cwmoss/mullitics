@@ -20,6 +20,10 @@ $req = new request($_SERVER, $_GET, lc_headers());
 if ($req->method('GET')) {
     if (isset($req->get['__desk'])) {
         include($DESK . 'index.html');
+    } elseif (isset($req->get['__script'])) {
+        $js = file_get_contents($DESK . 'ping.js');
+        $resp = new response('js', $js);
+        $resp->send();
     } else {
         dbg("+++ hit", $req);
 
