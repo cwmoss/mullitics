@@ -15,6 +15,7 @@ spl_autoload_register(function ($name) {
 
 $VAR = __DIR__ . '/../var/';
 $DESK = __DIR__ . '/../resources/';
+$name = '20sec';
 
 $req = new request($_SERVER, $_GET, lc_headers());
 if ($req->method('GET')) {
@@ -25,10 +26,16 @@ if ($req->method('GET')) {
         $js = file_get_contents($DESK . 'ping.js');
         $resp = new response('js', text_for($js, ['self_url' => $url]));
         $resp->send();
+    } elseif (isset($req->get['__query'])) {
+        $db = new sqlite($name, $VAR, ['readonly' => true]);
+
+        $report = new report($db);
+
+        $resp = new response('json');
+        $resp->send_data($report->recent());
     } else {
         dbg("+++ hit", $req);
 
-        $name = '20sec';
         $salt = file_get_contents($VAR . 'salt');
 
         $db = new sqlite($name, $VAR);

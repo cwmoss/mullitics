@@ -6,14 +6,20 @@ class sqlite {
     public PDO $db;
     public string $name;
 
-    public function __construct($name, $dir) {
+    public function __construct($name, $dir, $opts = []) {
         $file = $dir . $name . '.db';
         $dsn = 'sqlite:' . $file;
         $exists = \file_exists($file);
         dbg("+++ exists?", $exists);
-
+        $con = [];
+        if ($opts['readonly'] ?? false) {
+            $con[\PDO::SQLITE_ATTR_OPEN_FLAGS] = \PDO::SQLITE_OPEN_READONLY;
+        }
         $this->db = new \PDO(
-            $dsn
+            $dsn,
+            null,
+            null,
+            $con
         );
         $this->name = $name;
         $this->run("PRAGMA journal_mode = wal;");
@@ -34,10 +40,16 @@ class sqlite {
         $this->query($query, $vars);
     }
 
+    public function select($q, $vars) {
+        $res = $this->query($q, $vars);
+        while ($row = $res->fetch(\PDO::FETCH_ASSOC)) {
+            yield $row;
+        }
+    }
     public function query($q, $vars) {
         $vars = $this->typed_vars($vars);
         $sth = $this->db->prepare($q);
-        $sth = $sth->execute($vars);
+        $ok = $sth->execute($vars);
         return $sth;
     }
 

@@ -23,7 +23,7 @@ needs php 7.4. - 8.2 with extensions: intl, pdo-sqlite, json
     php setup/setup.php
     # set link to docroot
     cd htdocs
-    ln -s ../mu/public/index.php ping.php
+    ln -s ../mullitics/public/index.php ping.php
     # include javascript in all your pages
     <script defer src="/ping.php?__script"></script>
 
