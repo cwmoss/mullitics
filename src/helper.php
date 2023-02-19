@@ -80,3 +80,9 @@ function text_for($muster, $vars = array()) {
     $txt = str_replace(array_keys($repl), $repl, $txt);
     return $txt;
 }
+
+function get_data_url($image, $mime = '') {
+    if (!$mime) $mime = mime_content_type($image);
+    return 'data: ' . $mime .
+        ';base64,' . base64_encode(file_get_contents($image));
+}
