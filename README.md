@@ -2,6 +2,10 @@
 
 this is highly experimental
 
+needs php 7.4. - 8.2
+
+    php setup/setup.php
+
 ## why?
 
 nobody should send their visitors data to google analytics just because it's too hard to manage traffic data by themselfs.
