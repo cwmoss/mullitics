@@ -37,7 +37,7 @@ class hit {
                 'Session' => $session,
                 'URI' => $path,
                 'Ref' => $ref,
-                'Country' => $country,
+                'Country' => $country ?: '-',
                 'Device' => $this->get_device(),
                 'width' => $this->req->get['d'] ?? null,
                 'geoip_lookup' => false
