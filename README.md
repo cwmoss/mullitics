@@ -1,6 +1,6 @@
 # mullitics
 
-this is a experimental port of _nullitics_ to php
+this is a experimental port of _nullitics_ by Serge Zaitsev https://nullitics.com/ to php
 
 needs php 7.4. - 8.2 with extensions: intl, pdo-sqlite, json
 
@@ -19,7 +19,7 @@ needs php 7.4. - 8.2 with extensions: intl, pdo-sqlite, json
 
     # move it to your server, outside the document root
     # i use rsync but you can use scp or ftp...
-    rsync -avz --exclude=var --exclude=.git . USERNAME@example.met:/path/outside/docroot
+    rsync -avz --exclude=var --exclude=.git --exclude=.env . USERNAME@example.met:/path/outside/docroot
 
     # login to your host
     cd /path/outside/docroot/mullitics
@@ -77,3 +77,7 @@ put this in header, with the url of your installation as data-fun attribute
 or fetch from installation
 
     <script defer src="/ping.php?__script"></script>
+
+# credits
+
+the idea is simple: just do it! count it! balance the respect for privacy with your own need to have some clues about the reception of your content. all credits to Serge Zaitsev https://zserge.com/
