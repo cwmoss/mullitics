@@ -43,6 +43,8 @@ no personal data is stored. no cookie is set.
 session/ visits are calculated like this:
 `session = md5(ip adress + user agent header + date(ymd) + salt)`
 
+this is by no means accurate. but for me -- and maybe for you too -- it is accurate enough. and it is easier than processing log files.
+
 # integration options
 
 ### symbolic link to htdocs
