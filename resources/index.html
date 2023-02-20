@@ -65,8 +65,8 @@
   </nu-grid>
  
   <script type="text/javascript">
-    const fullData = {} // {{ .History }};
-    const dailyData = {} //{{ .Daily }};
+    const fullData = <?=json_encode_nice($report->history())?>;
+    const dailyData = <?=json_encode_nice($report->daily())?>;
     <?php include("app.js")?>
   </script>
   <noscript>

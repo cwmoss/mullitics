@@ -25,6 +25,10 @@ $name = '20sec';
 $req = new request($_SERVER, $_GET, lc_headers());
 if ($req->method('GET')) {
     if (isset($req->get['__desk'])) {
+        $db = new sqlite($name, $VAR, ['readonly' => true]);
+
+        $report = new report($db);
+
         include($DESK . 'index.html');
     } elseif (isset($req->get['__script'])) {
         $url = get_self_url($req);

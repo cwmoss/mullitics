@@ -33,6 +33,8 @@ SELECT
 FROM ds
 GROUP BY URI;
 
+{"Start":"2023-02-20T00:00:00+01:00","Interval":3600000000000,"URIs":{"Rows":[{"Name":"/","Values":[]...
+{"Start":"2023-02-20T00:00:00+01:00","Interval":3600000000000,"URIs":{"Rows":[{"Name":"/","Values":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,1]}
 */
 
 class report {
@@ -49,5 +51,81 @@ class report {
             ['twentyfourhours' => time() - (24 * 60 * 60)]
         );
         return iterator_to_array($res);
+    }
+
+    public function daily() {
+        $start = new DateTime();
+        $start->setTime(0, 0, 0);
+
+
+        return [
+            'Start' => $start->format("c"), 'Interval' => 3600000000000,
+            'URIs' => ['Rows' => $this->dailystats_for('URI', $start)],
+            'Refs' => ['Rows' => $this->dailystats_for('Ref', $start)],
+            'Sessions' => ['Rows' => $this->dailystats_for('Session', $start)],
+            'Countries' => ['Rows' => $this->dailystats_for('Country', $start)],
+            'Devices' => ['Rows' => $this->dailystats_for('Device', $start)],
+        ];
+    }
+
+    public function history() {
+        $res = $this->db->select('select date(min(Timestamp), "unixepoch") as start from hits', []);
+        $startvalue = date("Y-m-d");
+        foreach ($res as $rec) {
+            $startvalue = $rec['start'];
+        }
+        $start = new DateTime($startvalue);
+        $end = new DateTime("-1 days");
+        $end->setTime(23, 59, 59);
+        $days = $end->diff($start)->format("%a") + 1;
+
+        return [
+            'Start' => $start->format("c"), 'Interval' => 86400000000000,
+            'URIs' => ['Rows' => $this->frame_for('URI', $start, $days, $end)],
+            'Refs' => ['Rows' => $this->frame_for('Ref', $start, $days, $end)],
+            'Sessions' => ['Rows' => $this->frame_for('Session', $start, $days, $end)],
+            'Countries' => ['Rows' => $this->frame_for('Country', $start, $days, $end)],
+            'Devices' => ['Rows' => $this->frame_for('Device', $start, $days, $end)],
+        ];
+    }
+
+    function frame_for($fieldname, $start, $size, $end) {
+        if ($fieldname == 'Session') {
+            $q = 'SELECT strftime("%Y-%m-%d", Timestamp, "unixepoch") as tf , "sessions" as val, count(distinct ' . $fieldname . ') as c from hits ' .
+                'WHERE Timestamp  >= :start AND Timestamp <= :end GROUP BY tf';
+        } else {
+            $q = 'SELECT strftime("%Y-%m-%d", Timestamp, "unixepoch") as tf , ' . $fieldname . ' as val, count(' . $fieldname . ') as c from hits ' .
+                'WHERE Timestamp  >= :start AND Timestamp <= :end GROUP BY tf,' . $fieldname;
+        }
+        $res = $this->db->select($q, ['start' => $start->getTimestamp(), 'end' => $end->getTimestamp()]);
+        $stats = [];
+        foreach ($res as $hit) {
+            if (!isset($stats[$hit['val']])) {
+                $stats[$hit['val']] = ['Name' => $hit['val'], 'Values' => array_fill(0, $size, 0)];
+            }
+            $tf_date = new DateTime($hit['tf']);
+            $index = (int) $tf_date->diff($start)->format("%a");
+            $stats[$hit['val']]['Values'][$index] = (int) $hit['c'];
+        }
+        return array_values($stats);
+    }
+
+    function dailystats_for($fieldname, $start) {
+        if ($fieldname == 'Session') {
+            $q = 'SELECT strftime("%H", Timestamp, "unixepoch") as tf , "sessions" as val, count(distinct ' . $fieldname . ') as c from hits ' .
+                'WHERE Timestamp  >= :start GROUP BY tf';
+        } else {
+            $q = 'SELECT strftime("%H", Timestamp, "unixepoch") as tf , ' . $fieldname . ' as val, count(' . $fieldname . ') as c from hits ' .
+                'WHERE Timestamp  >= :start GROUP BY tf,' . $fieldname;
+        }
+        $res = $this->db->select($q, ['start' => $start->getTimestamp()]);
+        $stats = [];
+        foreach ($res as $hit) {
+            if (!isset($stats[$hit['val']])) {
+                $stats[$hit['val']] = ['Name' => $hit['val'], 'Values' => array_fill(0, 24, 0)];
+            }
+            $stats[$hit['val']]['Values'][(int) $hit['tf']] = (int) $hit['c'];
+        }
+        return array_values($stats);
     }
 }

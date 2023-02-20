@@ -6,7 +6,7 @@ needs php 7.4. - 8.2 with extensions: intl, pdo-sqlite, json
 
 ## todo
 
-- [ ] queries!
+- [x] queries!
 - [ ] multisite via \_sites.db
 - [ ] daily autorotation of salt
 - [ ] connect geoip
