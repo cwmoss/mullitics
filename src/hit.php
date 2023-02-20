@@ -36,7 +36,7 @@ class hit {
                 'Timestamp' => $ts,
                 'Session' => $session,
                 'URI' => $path,
-                'Ref' => $ref,
+                'Ref' => $ref ?: '-',
                 'Country' => $country ?: '-',
                 'Device' => $this->get_device(),
                 'width' => $this->req->get['d'] ?? null,

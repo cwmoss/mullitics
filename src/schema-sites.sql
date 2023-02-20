@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS salts (
+    id INTEGER NOT NULL DEFAULT 1,
+    salt TEXT,
+    salted_at TEXT NOT NULL DEFAULT (date())
+)
