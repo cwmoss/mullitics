@@ -6,6 +6,11 @@ new Image().src='/n.gif?u=' +
     '&r=' + encodeURI(document.referrer) + 
     '&d=' + screen.width;
 
+https://simonhearne.com/2022/caching-header-best-practices/
+
+Cache-Control: max-age=604800, stale-while-revalidate=86400
+ETag: "<file-hash-generated-by-server>"
+
 */
 require_once(__DIR__ . '/helper.php');
 
@@ -24,6 +29,12 @@ if ($req->method('GET')) {
     } elseif (isset($req->get['__script'])) {
         $url = get_self_url($req);
         $js = file_get_contents($DESK . 'ping.js');
+
+        $seconds = 60 * 60 * 2;
+        // header("Cache-Control: max-age=$seconds, stale-while-revalidate=$seconds");
+        header("Cache-Control: max-age=$seconds");
+        // header("Etag: " . md5($js));
+
         $resp = new response('js', text_for($js, ['self_url' => $url]));
         $resp->send();
     } elseif (isset($req->get['__query'])) {
