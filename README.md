@@ -1,6 +1,6 @@
 # mullitics
 
-this is highly experimental
+this is a experimental port of _nullitics_ to php
 
 needs php 7.4. - 8.2 with extensions: intl, pdo-sqlite, json
 
@@ -36,7 +36,7 @@ needs php 7.4. - 8.2 with extensions: intl, pdo-sqlite, json
 
 nobody should send their visitors data to google analytics just because it's too hard to manage traffic data by themselfs.
 
-looking at easy solutions i found _nullitics_ it's a highly inspiring minimalistic approach. it's written in go. i think it deserves to be ported to php. for some users that might be easier to run. i changed the store to sqlite. plus i want to be able to use one install for multiple sites. thats why i called it mullitics. phullitics would sound even more strange i think.
+looking for an easy solutions i found _nullitics_ it's a highly inspiring minimalistic approach. it's written in go. i think it deserves to be ported to php. for some users that might be easier to run. i changed the store to sqlite. plus i want to be able to use one install for multiple sites. thats why i called it mullitics. phullitics would sound even more strange i think.
 
 no personal data is stored. no cookie is set.
 
