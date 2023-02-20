@@ -69,11 +69,11 @@ class report {
     }
 
     public function history() {
-        $res = $this->db->select('select date(min(Timestamp), "unixepoch") as start from hits', []);
-        $startvalue = date("Y-m-d");
-        foreach ($res as $rec) {
-            $startvalue = $rec['start'];
+        $startvalue = $this->db->select_first_cell('select date(min(Timestamp), "unixepoch") as start from hits');
+        if (!$startvalue) {
+            $startvalue = date("Y-m-d");
         }
+
         $start = new DateTime($startvalue);
         $end = new DateTime("-1 days");
         $end->setTime(23, 59, 59);

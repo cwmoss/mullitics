@@ -40,12 +40,26 @@ class sqlite {
         $this->query($query, $vars);
     }
 
-    public function select($q, $vars) {
+    public function select($q, $vars = []) {
         $res = $this->query($q, $vars);
         while ($row = $res->fetch(\PDO::FETCH_ASSOC)) {
             yield $row;
         }
     }
+
+    public function select_first_row($q, $vars = []) {
+        $res = $this->query($q, $vars);
+        while ($row = $res->fetch(\PDO::FETCH_ASSOC)) {
+            return $row;
+        }
+        return [];
+    }
+
+    public function select_first_cell($q, $vars = []) {
+        $res = $this->query($q, $vars);
+        return $res->fetchColumn();
+    }
+
     public function query($q, $vars) {
         $vars = $this->typed_vars($vars);
         $sth = $this->db->prepare($q);
