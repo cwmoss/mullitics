@@ -51,11 +51,11 @@ class hit {
     public function get_country() {
         $lang = Locale::acceptFromHttp($this->req->headers['accept-language'] ?? '');
         if ($lang) {
-            $parts = explode('-', $lang);
-            if (isset($parts[1])) {
-                return strtoupper($parts[1]);
+            // en-US, en_US ...
+            if (strlen($lang) === 5) {
+                return strtoupper(substr($lang, -2));
             }
-            return strtoupper($parts[0]);
+            return strtoupper($lang);
         }
     }
 
