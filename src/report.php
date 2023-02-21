@@ -91,10 +91,10 @@ class report {
 
     function frame_for($fieldname, $start, $size, $end) {
         if ($fieldname == 'Session') {
-            $q = 'SELECT strftime("%Y-%m-%d", Timestamp, "unixepoch") as tf , "sessions" as val, count(distinct ' . $fieldname . ') as c from hits ' .
+            $q = 'SELECT strftime("%Y-%m-%d", Timestamp, "unixepoch", "localtime") as tf , "sessions" as val, count(distinct ' . $fieldname . ') as c from hits ' .
                 'WHERE Timestamp  >= :start AND Timestamp <= :end GROUP BY tf';
         } else {
-            $q = 'SELECT strftime("%Y-%m-%d", Timestamp, "unixepoch") as tf , ' . $fieldname . ' as val, count(' . $fieldname . ') as c from hits ' .
+            $q = 'SELECT strftime("%Y-%m-%d", Timestamp, "unixepoch", "localtime") as tf , ' . $fieldname . ' as val, count(' . $fieldname . ') as c from hits ' .
                 'WHERE Timestamp  >= :start AND Timestamp <= :end GROUP BY tf,' . $fieldname;
         }
         $res = $this->db->select($q, ['start' => $start->getTimestamp(), 'end' => $end->getTimestamp()]);
@@ -112,10 +112,10 @@ class report {
 
     function dailystats_for($fieldname, $start) {
         if ($fieldname == 'Session') {
-            $q = 'SELECT strftime("%H", Timestamp, "unixepoch") as tf , "sessions" as val, count(distinct ' . $fieldname . ') as c from hits ' .
+            $q = 'SELECT strftime("%H", Timestamp, "unixepoch", "localtime") as tf , "sessions" as val, count(distinct ' . $fieldname . ') as c from hits ' .
                 'WHERE Timestamp  >= :start GROUP BY tf';
         } else {
-            $q = 'SELECT strftime("%H", Timestamp, "unixepoch") as tf , ' . $fieldname . ' as val, count(' . $fieldname . ') as c from hits ' .
+            $q = 'SELECT strftime("%H", Timestamp, "unixepoch", "localtime") as tf , ' . $fieldname . ' as val, count(' . $fieldname . ') as c from hits ' .
                 'WHERE Timestamp  >= :start GROUP BY tf,' . $fieldname;
         }
         $res = $this->db->select($q, ['start' => $start->getTimestamp()]);
