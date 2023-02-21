@@ -55,7 +55,12 @@ if ($req->method('GET')) {
 
         $db = new sqlite($name, $VAR);
 
-        new hit($req, new appender($db), $salt);
+        $geo = null;
+        if (file_exists($VAR . '_geo.db')) {
+            $geodb = new sqlite('_geo', $VAR, ['schema' => 'geo', 'nowal' => true, 'readonly' => true]);
+            $geo = new geo($geodb);
+        }
+        new hit($req, new appender($db), $salt, $geo);
 
         $resp = new response('png', pixel());
         $resp->send();

@@ -10,3 +10,4 @@ yarn-error.log
 .ideas/
 .DS_Store
 *.zip
+/*.php

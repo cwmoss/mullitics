@@ -86,3 +86,12 @@ function get_data_url($image, $mime = '') {
     return 'data: ' . $mime .
         ';base64,' . base64_encode(file_get_contents($image));
 }
+
+function cidr2iplong($cidr) {
+    $ip_arr = explode('/', $cidr);
+    $start = ip2long($ip_arr[0]);
+    $nm = $ip_arr[1];
+    $num = pow(2, 32 - $nm);
+    $end = $start + $num - 1;
+    return [sprintf("%u", $start), sprintf("%u", $end)];
+}

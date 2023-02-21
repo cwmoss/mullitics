@@ -22,9 +22,13 @@ class sqlite {
             $con
         );
         $this->name = $name;
-        $this->run("PRAGMA journal_mode = wal;");
+
+        if (!isset($opts['nowal']) ||  $opts['nowal'] !== true) {
+            $this->run("PRAGMA journal_mode = wal;");
+        }
+
         if (!$exists) {
-            $this->create_schema();
+            $this->create_schema($opts['schema'] ?? '');
         }
     }
 
@@ -83,8 +87,9 @@ class sqlite {
         $this->db->exec($query);
     }
 
-    public function create_schema() {
-        $ddl = file_get_contents(__DIR__ . '/schema.sql');
+    public function create_schema($name = "") {
+        $name = $name ? "schema-{$name}.sql" : "schema.sql";
+        $ddl = file_get_contents(__DIR__ . '/' . $name);
         $statements = explode('----', $ddl);
         #print $ddl;
         foreach ($statements as $ddl_s) {
