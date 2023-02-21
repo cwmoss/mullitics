@@ -9,3 +9,4 @@ yarn-error.log
 /var
 .ideas/
 .DS_Store
+*.zip
