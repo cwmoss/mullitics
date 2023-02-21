@@ -9,8 +9,9 @@ needs php 7.4. - 8.2 with extensions: intl, pdo-sqlite, json
 - [x] queries!
 - [ ] multisite via \_sites.db
 - [ ] daily autorotation of salt
-- [ ] connect geoip
+- [x] connect geoip
 - [ ] feed em logfiles!
+- [ ] make it a middleware
 
 ## dead simple installation
 
