@@ -20,7 +20,7 @@ spl_autoload_register(function ($name) {
 
 $VAR = __DIR__ . '/../var/';
 $DESK = __DIR__ . '/../resources/';
-$name = '20sec';
+$name = 'default';
 
 $req = new request($_SERVER, $_GET, lc_headers());
 if ($req->method('GET')) {
@@ -51,9 +51,8 @@ if ($req->method('GET')) {
     } else {
         dbg("+++ hit", $req);
 
-        $salt = file_get_contents($VAR . 'salt');
-
         $db = new sqlite($name, $VAR);
+        $salt = get_salt($db);
 
         $geo = null;
         if (file_exists($VAR . '_geo.db')) {

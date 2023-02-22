@@ -8,7 +8,7 @@ needs php 7.4. - 8.2 with extensions: intl, pdo-sqlite, json
 
 - [x] queries!
 - [ ] multisite via \_sites.db
-- [ ] daily autorotation of salt
+- [x] daily autorotation of salt
 - [x] connect geoip
 - [ ] feed em logfiles!
 - [ ] make it a middleware
@@ -32,6 +32,10 @@ needs php 7.4. - 8.2 with extensions: intl, pdo-sqlite, json
 
     # include javascript in all your pages
     <script defer src="/ping.php?__script"></script>
+
+    # you can optionally add geolite2 maxmind db for country detection via ip
+    # download the GeoLite2-Country-CSV*.zip from your maxmind account
+    php setup/geoip.php path/to/download.zip
 
 ## why?
 

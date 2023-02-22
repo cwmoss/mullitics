@@ -95,3 +95,18 @@ function cidr2iplong($cidr) {
     $end = $start + $num - 1;
     return [sprintf("%u", $start), sprintf("%u", $end)];
 }
+
+function get_salt(sqlite $db) {
+    $salt = $db->select_first_cell(
+        'SELECT salt from salt where salted_at >= :today',
+        ['today' => date('Y-m-d') . ' 00:00:00']
+    );
+    if (!$salt) {
+        $salt = bin2hex(random_bytes(32));
+        $db->query(
+            'insert or replace into salt (salt) values(:newsalt)',
+            ['newsalt' => $salt]
+        );
+    }
+    return $salt;
+}

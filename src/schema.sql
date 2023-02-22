@@ -11,3 +11,10 @@ CREATE TABLE IF NOT EXISTS hits (
 ----
 CREATE INDEX IF NOT EXISTS hits_timestamp on hits(Timestamp)
 ----
+# insert or replace into salt (salt) values('A');
+----
+create table salt (
+    id INTEGER not null unique check(id=1) default 1, 
+    salt TEXT not null, 
+    salted_at TEXT default (datetime('now', 'localtime'))
+)
