@@ -15,23 +15,26 @@ needs php 7.4. - 8.2 with extensions: intl, pdo-sqlite, json
 
 ## dead simple installation
 
-    # get the source
-    git clone https://github.com/cwmoss/mullitics.git
+    # download the source
+    cd /some/path/outside/your/document-root
+    curl -L https://github.com/cwmoss/mullitics/zipball/main -o tmp.zip; unzip tmp.zip; mv cwmoss* mullitics
 
-    # move it to your server, outside the document root
-    # i use rsync but you can use scp or ftp...
-    rsync -avz --exclude=var --exclude=.git --exclude=.env . USERNAME@example.met:/path/outside/docroot
-
-    # login to your host
-    cd /path/outside/docroot/mullitics
+    # change to the source path
+    cd mullitics
     php setup/setup.php
 
     # set link to docroot
     cd htdocs
-    ln -s ../mullitics/public/index.php ping.php
+    ln -s ../mullitics/public/index.php friendly.php
 
-    # include javascript in all your pages
-    <script defer src="/ping.php?__script"></script>
+    # include javascript in all of your pages
+    <script defer src="/friendly.php?__script"></script>
+
+    # visit your site with your browser, check if you encouter any errors
+    https://yoursite.name
+
+    # now you can look at your beautiful dashboard
+    https://yoursite.name/friendly.php?__desk
 
     # you can optionally add geolite2 maxmind db for country detection via ip
     # download the GeoLite2-Country-CSV*.zip from your maxmind account
