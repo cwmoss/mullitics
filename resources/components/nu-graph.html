@@ -17,6 +17,9 @@
             place-self: center;
             text-align: center;
         }
+        .label-0{
+            color: black;
+        }
     </style>
 </template>
 <script>
@@ -89,6 +92,7 @@
                 label.textContent = `${numfmt((5 - line) * max / 5)}`;
                 graph.appendChild(label);
             }
+            console.log("+++ labels", labels)
             labels.forEach((label, i) => {
                 points.forEach((values, order) => {
                     const value = values[i];
@@ -101,10 +105,10 @@
                     graph.appendChild(el);
                 });
                 const el = document.createElement('div');
-                el.className = "label";
+                el.className = "label"+" label-"+label[1];
                 el.style.gridRow = '-1';
                 el.style.gridColumn = `${i + 2}`;
-                el.textContent = label;
+                el.textContent = label[0];
                 graph.appendChild(el);
             });
         }

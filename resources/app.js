@@ -17,7 +17,7 @@ const slice = (start, end, key) => {
   let buckets = Math.max(Math.ceil((end - start) / DAY), 0);
   let from = 0;
   let source = fullData;
-  let fmt = new Intl.DateTimeFormat([], {day: '2-digit', month: 'short'});
+  let fmt = new Intl.DateTimeFormat('en', {weekday: "short", day: '2-digit', month: 'short'});
   let increment = DAY;
   if (buckets <= 1 && end.getTime() === today.getTime()) {
     buckets = 24;
@@ -31,9 +31,10 @@ const slice = (start, end, key) => {
   } else {
     from = Math.ceil((start - oldest) / DAY);
   }
-  const labels = zeros(buckets).map((_, i) =>
-    fmt.format(new Date(start.getTime() + increment * i)),
-  );
+  const labels = zeros(buckets).map((_, i) => {
+    var dat = new Date(start.getTime() + increment * i)    
+    return [fmt.format(dat), increment==DAY?dat.getDay():'']
+  });
   if (!source[key] || !source[key].Rows) {
     return [[], labels];
   }
