@@ -1,5 +1,7 @@
 <?php
 
+namespace mullitics;
+
 class response {
     public string $type;
     public $data;

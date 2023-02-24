@@ -1,5 +1,7 @@
 <?php
 
+namespace mullitics;
+
 class appender {
 
     public sqlite $db;

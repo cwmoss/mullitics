@@ -1,4 +1,9 @@
 <?php
+
+namespace mullitics;
+
+use DateTime;
+
 /*
 
 select datetime(Timestamp, 'unixepoch') from hits;

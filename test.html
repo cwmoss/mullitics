@@ -4,13 +4,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script defer data-fun="http://localhost:8000/dev/mullitics/public/index.php">
-        const f = document.currentScript.getAttribute('data-fun')
-        new Image().src = f + 
-            '?u=' + encodeURI(location.href) + 
-            '&r=' + encodeURI(document.referrer) + 
-            '&d=' + screen.width;
-    </script>
+    <script defer src="/dev/mullitics/public/index.php?__script"></script>
+
 </head>
 <body>
     <h1>test</h1>

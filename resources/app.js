@@ -33,7 +33,7 @@ const slice = (start, end, key) => {
   }
   const labels = zeros(buckets).map((_, i) => {
     var dat = new Date(start.getTime() + increment * i)    
-    return [fmt.format(dat), increment==DAY?dat.getDay():'']
+    return [fmt.format(dat), increment==DAY?dat.getDay():null]
   });
   if (!source[key] || !source[key].Rows) {
     return [[], labels];

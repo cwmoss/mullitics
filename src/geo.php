@@ -1,4 +1,7 @@
 <?php
+
+namespace mullitics;
+
 // https://www.home.neustar/blog/importing-ultrageopoint-into-sqlite
 /*
 

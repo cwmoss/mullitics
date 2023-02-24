@@ -1,5 +1,9 @@
 <?php
 
+namespace mullitics;
+
+use PDO;
+
 // mysql:host=localhost;dbname=something
 class sqlite {
 
@@ -10,7 +14,6 @@ class sqlite {
         $file = $dir . $name . '.db';
         $dsn = 'sqlite:' . $file;
         $exists = \file_exists($file);
-        dbg("+++ exists?", $exists);
         $con = [];
         if ($opts['readonly'] ?? false) {
             $con[\PDO::SQLITE_ATTR_OPEN_FLAGS] = \PDO::SQLITE_OPEN_READONLY;

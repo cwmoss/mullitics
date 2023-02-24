@@ -1,4 +1,6 @@
 <?php
+
+namespace mullitics;
 /*
 
 new Image().src='/n.gif?u=' + 
@@ -12,57 +14,37 @@ Cache-Control: max-age=604800, stale-while-revalidate=86400
 ETag: "<file-hash-generated-by-server>"
 
 */
+
 require_once(__DIR__ . '/helper.php');
 
-spl_autoload_register(function ($name) {
-    require_once(__DIR__ . "/{$name}.php");
+\spl_autoload_register(function ($name) {
+    $path = explode('\\', $name);
+    if ($path[0] == __NAMESPACE__) {
+        require_once(__DIR__ . "/{$path[1]}.php");
+    }
 });
 
-$VAR = __DIR__ . '/../var/';
-$DESK = __DIR__ . '/../resources/';
+$base = __DIR__ . '/../';
+
 $name = 'default';
 
 $req = new request($_SERVER, $_GET, lc_headers());
+
+
+
 if ($req->method('GET')) {
+    $mu = new application($name, ['var' => $base . 'var/', 'desk' => $base . 'resources/']);
+
     if (isset($req->get['__desk'])) {
-        $db = new sqlite($name, $VAR, ['readonly' => true]);
-
-        $report = new report($db);
-
-        include($DESK . 'index.html');
+        $mu->handle_report();
     } elseif (isset($req->get['__script'])) {
-        $url = get_self_url($req);
-        $js = file_get_contents($DESK . 'ping.js');
-
-        $seconds = 60 * 60 * 2;
-        // header("Cache-Control: max-age=$seconds, stale-while-revalidate=$seconds");
-        header("Cache-Control: max-age=$seconds");
-        // header("Etag: " . md5($js));
-
-        $resp = new response('js', text_for($js, ['self_url' => $url]));
-        $resp->send();
+        $mu->handle_script($req);
     } elseif (isset($req->get['__query'])) {
-        $db = new sqlite($name, $VAR, ['readonly' => true]);
-
-        $report = new report($db);
-
-        $resp = new response('json');
-        $resp->send_data($report->recent());
+        $mu->handle_query($req);
     } else {
-        dbg("+++ hit", $req);
+        // dbg("+++ hit", $req);
 
-        $db = new sqlite($name, $VAR);
-        $salt = get_salt($db);
-
-        $geo = null;
-        if (file_exists($VAR . '_geo.db')) {
-            $geodb = new sqlite('_geo', $VAR, ['schema' => 'geo', 'nowal' => true, 'readonly' => true]);
-            $geo = new geo($geodb);
-        }
-        new hit($req, new appender($db), $salt, $geo);
-
-        $resp = new response('png', pixel());
-        $resp->send();
+        $mu->handle_hit($req);
     }
 } else {
     header('HTTP/1.1 404 Not Found');

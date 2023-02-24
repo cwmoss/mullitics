@@ -1,4 +1,7 @@
 <?php
+
+namespace mullitics;
+
 ini_set('memory_limit', '1G');
 
 $ip = 'GeoLite2-Country-Blocks-IPv4.csv';
@@ -55,7 +58,7 @@ $zip->close();
 $cc = array_column($cc, 'country_iso_code', 'geoname_id');
 print_r($cc);
 
-$db = new sqlite('_geo-tmp', __DIR__ . '/../', ['schema' => 'geo', 'nowal' => true]);
+$db = new sqlite('_geo-tmp', __DIR__ . '/../', ['schema' => 'geo']);
 make_db($db, $ips, $cc);
 print "OK" . PHP_EOL;
 rename(__DIR__ . '/../_geo-tmp.db', $VAR . '/_geo.db');

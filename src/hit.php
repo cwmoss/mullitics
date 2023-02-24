@@ -1,5 +1,7 @@
 <?php
 
+namespace mullitics;
+
 class hit {
     public request $req;
     public appender $appender;
@@ -61,7 +63,7 @@ class hit {
         if ($cc) {
             return [$cc, true];
         }
-        $lang = Locale::acceptFromHttp($this->req->headers['accept-language'] ?? '');
+        $lang = \Locale::acceptFromHttp($this->req->headers['accept-language'] ?? '');
         if ($lang) {
             // en-US, en_US ...
             if (strlen($lang) === 5) {

@@ -1,4 +1,7 @@
 <?php
+
+namespace mullitics;
+
 function json_encode_nice($data) {
     return json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 }
@@ -12,7 +15,7 @@ function dbg($txt, ...$vars) {
     } else {
         $log[] = $txt;
     }
-    $log[] = join(' ', array_map('json_encode_nice', $vars));
+    $log[] = join(' ', array_map(__NAMESPACE__ . '\\json_encode_nice', $vars));
     error_log(join(' ', $log));
 }
 

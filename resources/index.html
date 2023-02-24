@@ -25,7 +25,7 @@
 
 <body>
   <header><h1>
-    <img src="<?=get_data_url(__DIR__.'/phant.png', 'image/png')?>">
+    <img src="<?=mullitics\get_data_url(__DIR__.'/phant.png', 'image/png')?>">
     mullitics</h1>
   </header>
   <?php include("components/nu-grid.html")?>
@@ -72,8 +72,8 @@
   </nu-grid>
  
   <script type="text/javascript">
-    const fullData = <?=json_encode_nice($report->history())?>;
-    const dailyData = <?=json_encode_nice($report->daily())?>;
+    const fullData = <?=mullitics\json_encode_nice($report->history())?>;
+    const dailyData = <?=mullitics\json_encode_nice($report->daily())?>;
     <?php include("app.js")?>
   </script>
   <noscript>

@@ -1,5 +1,7 @@
 <?php
 
+namespace mullitics;
+
 class request {
 
     public array $server;

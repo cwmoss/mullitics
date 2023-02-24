@@ -1,4 +1,7 @@
 <?php
+
+namespace mullitics;
+
 // https://httpd.apache.org/docs/2.2/logs.html
 
 // $format = '%h %l %u %t \"%r\" %>s %b';
