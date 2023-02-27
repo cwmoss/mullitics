@@ -5,7 +5,7 @@ namespace mullitics;
 class hit {
     public request $req;
     public appender $appender;
-    public $geo;
+    public ?geo $geo;
 
     public string $salt;
 

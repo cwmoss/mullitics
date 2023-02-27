@@ -4,7 +4,7 @@ namespace mullitics;
 
 class response {
     public string $type;
-    public $data;
+    public ?string $data;
 
     public static array $mime = [
         'png' => 'image/png',
