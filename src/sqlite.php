@@ -26,7 +26,7 @@ class sqlite {
         );
         $this->name = $name;
 
-        if (isset($opts['wal']) && $opts['nowal'] === true) {
+        if (isset($opts['wal']) && $opts['wal'] === true) {
             $this->run("PRAGMA journal_mode = wal;");
         }
 

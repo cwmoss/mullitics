@@ -93,6 +93,6 @@ class hit {
 
     public function get_ref() {
         $url = parse_url($this->req->get['r'] ?? '');
-        return $url['host'] . $url['path'];
+        return $url['host'] ?? '' . $url['path'];
     }
 }
