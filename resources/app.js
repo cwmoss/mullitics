@@ -50,6 +50,9 @@ const rank = key => {
   const total = sum(reduced.map(([k, v]) => v));
   return [reduced, total];
 };
+
+const regionNames = Intl.DisplayNames ? new Intl.DisplayNames([], { type: 'region' }) : {of: cn => cn};
+
 let today = new Date();
 let oldest = new Date(fullData.Start);
 today.setHours(0, 0, 0, 0);
@@ -63,8 +66,23 @@ const sliceMap = (start, end, key) => {
 const render = () => {
   const {from, to} = document.querySelector('nu-date-range');
   document.querySelectorAll('[data-filter]').forEach(el => {
-      const x = sliceMap(from, to, el.dataset.filter);
-      el.items = sliceMap(from, to, el.dataset.filter);
+      let filter = el.dataset.filter
+      const rfilter = filter=='Countrynames'?'Countries':filter
+
+      let x = sliceMap(from, to, rfilter);
+      el.items = x
+
+
+      if(filter == 'Countrynames'){
+        let xmapped = {}
+
+        Object.keys(x).forEach(function(key, index) {
+          let newkey = key=='-'?key:regionNames.of(key)
+          xmapped[newkey] = x[key]
+        });
+        x = xmapped
+      }
+      el.items = x
   });
   const sum = v => v.reduce((a, i) => a + i, 0);
   const [paths, labels] = slice(from, to, 'URIs');

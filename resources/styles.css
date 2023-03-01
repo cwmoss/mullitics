@@ -45,7 +45,7 @@ select {
 
 .countries-grid {
   display: grid;
-  grid-template-columns: 3fr 1fr;
+  grid-template-columns: 2.5fr 1.5fr;
   grid-gap: 2rem;
   align-items: center;
   background-color: var(--color-background-light);
