@@ -69,6 +69,13 @@
                 this.limit = +newValue;
             }
         }
+        set titlemap(map){
+            this._titlemap = map
+        }
+        get titlemap(){
+            if(!this._titlemap) return inp=>inp
+            return this._titlemap
+        }
         get items() {
             return this._items;
         }
@@ -78,6 +85,8 @@
         }
         render() {
             const items = this._items;
+            const map = this.titlemap
+
             const keys = Object.keys(items);
             if (keys.length === 0) {
                 this.shadow.querySelector('section').innerHTML = '<p class="no-data">No data</p>';
@@ -90,7 +99,7 @@
             keys.slice(0, this.limit).forEach(key => {
                 const n = items[key];
                 // TODO: use appendChild()
-                html += `<span class="record">${key}</span>
+                html += `<span class="record">${map(key)}</span>
                 <span class="count">${numfmt(n)}</span>
                 <span class="percent">${percent(n, total)}%</span>
                 <span class="bar">

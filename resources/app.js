@@ -65,24 +65,14 @@ const sliceMap = (start, end, key) => {
 
 const render = () => {
   const {from, to} = document.querySelector('nu-date-range');
+  const country_map = (cc)=>(cc && cc!='-')?regionNames.of(cc):cc
+
   document.querySelectorAll('[data-filter]').forEach(el => {
       let filter = el.dataset.filter
-      const rfilter = filter=='Countrynames'?'Countries':filter
-
-      let x = sliceMap(from, to, rfilter);
-      el.items = x
-
-
-      if(filter == 'Countrynames'){
-        let xmapped = {}
-
-        Object.keys(x).forEach(function(key, index) {
-          let newkey = key=='-'?key:regionNames.of(key)
-          xmapped[newkey] = x[key]
-        });
-        x = xmapped
+      if(filter=='Countries'){
+        el.titlemap = country_map
       }
-      el.items = x
+      el.items = sliceMap(from, to, filter);
   });
   const sum = v => v.reduce((a, i) => a + i, 0);
   const [paths, labels] = slice(from, to, 'URIs');
