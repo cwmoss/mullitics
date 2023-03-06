@@ -41,6 +41,10 @@
         button:focus {
             z-index: 1;
             border: 2px solid var(--color-text);
+            
+        }
+        button.active{
+            background-color: var(--color-accent);
         }
         section {
             display: grid;
@@ -76,28 +80,43 @@
                 switch (mode) {
                   case 'today':
                       this.from = this.to = today;
+                      this.mode = 'today'
                       break;
                   case 'month':
                       this.from = lastMonth;
                       this.to = today;
+                      this.mode = 'month'
                       break;
                   case 'custom':
                       this.from = new Date(from);
                       this.to = new Date(to);
+                      this.mode = 'custom'
                       break;
                   default:
                       throw new Error('bad mode: '+mode);
                 }
             } catch (e) {
               this.from = this.to = today;
+              this.mode = 'today'
             }
+
+            const hili = (mode) => {
+                // console.log("hilight mode", mode)
+                this.shadowRoot.querySelectorAll("nav button").forEach((e) => e.classList.remove('active'))
+                this.shadowRoot.querySelector("nav button."+mode).classList.add('active')
+            }
+            
+            hili(this.mode)
 
             const setRange = (from, to, mode) => {
                 this.from = day(new Date(from));
                 this.to = day(new Date(to));
+                this.mode = mode
+                hili(mode)
                 this.dispatchEvent(new CustomEvent('datechange', { from: this.from, to: this.to }));
                 this.ondatechange ? this.ondatechange() : eval(this.getAttribute('ondatechange'));
                 window.localStorage['nu-date-range-selection'] = JSON.stringify({mode, from, to});
+                
             };
 
             const modal = this.shadow.querySelector('nu-modal');
