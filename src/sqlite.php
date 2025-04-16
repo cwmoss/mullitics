@@ -107,14 +107,22 @@ class sqlite {
 
 /*
 
- Use these you'll be just fine with high writes on SQLite. Reads are basically free.
+ Use these you'll be just fine with high writes on SQLite. 
+ Reads are basically free.
 
 PRAGMA journal_mode = wal2;
-
 PRAGMA synchronous = normal;
-
 PRAGMA temp_store = memory;
-
 PRAGMA cache_size = 100000; 
+
+https://blog.pecar.me/sqlite-prod
+PRAGMA foreign_keys = ON;
+PRAGMA journal_mode=WAL;
+PRAGMA synchronous=NORMAL; -- this might roll back a committed transaction following a power loss or system crash, use with caution
+PRAGMA mmap_size = 134217728;
+PRAGMA journal_size_limit = 27103364;
+PRAGMA cache_size=2000;
+
+https://sqlite-utils.datasette.io/en/stable/python-api.html#transforming-a-table
 
  */
