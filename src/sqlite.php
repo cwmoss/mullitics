@@ -104,3 +104,17 @@ class sqlite {
         return;
     }
 }
+
+/*
+
+ Use these you'll be just fine with high writes on SQLite. Reads are basically free.
+
+PRAGMA journal_mode = wal2;
+
+PRAGMA synchronous = normal;
+
+PRAGMA temp_store = memory;
+
+PRAGMA cache_size = 100000; 
+
+ */
